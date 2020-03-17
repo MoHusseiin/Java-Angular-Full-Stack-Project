@@ -4,7 +4,9 @@ public class Movie {
 	private String movieId;
     private String name;
     private String description;
-    
+    /*
+     * Type definition error: [simple type, class com.shika.domain.Movie]; nested exception is com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of
+     */
     public Movie() {
 	
 	}
