@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,8 @@ import com.shika.domain.Rating;
 @RequestMapping("/catalog")
 public class MovieCatalogController {
 	
-	
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@GetMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
@@ -29,7 +31,7 @@ public class MovieCatalogController {
 				new Rating("333", 5)
 		);
 		
-		RestTemplate restTemplate = new RestTemplate();
+//		RestTemplate restTemplate = new RestTemplate();
 		return ratings.stream().map(rating -> {
 			
 			Movie movie = restTemplate.getForObject("http://localhost:8082/movies/"+rating.getMovieId(), Movie.class);
