@@ -1,6 +1,6 @@
 package com.shika.controller;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.shika.domain.CatalogItem;
 import com.shika.domain.Movie;
-import com.shika.domain.Rating;
+import com.shika.domain.UserRating;
 
 
 @RestController
@@ -30,13 +30,19 @@ public class MovieCatalogController {
 	@GetMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 		
-		List<Rating> ratings = Arrays.asList(
-				new Rating("222", 4),
-				new Rating("333", 5)
-		);
+		
+//		List<Rating> ratings = Arrays.asList(
+//				new Rating("222", 4),
+//				new Rating("333", 5)
+//		);
+		
+		UserRating userRating = webClientBuilder.build().get().uri("http://localhost:8083/ratings/user/" + userId).retrieve().bodyToMono(UserRating.class).block();
 		
 //		RestTemplate restTemplate = new RestTemplate();
-		return ratings.stream().map(rating -> {
+		if(userRating.getRatings() == null || userRating.getRatings().isEmpty()) 
+			return new ArrayList<CatalogItem>();
+		
+		return userRating.getRatings().stream().map(rating -> {
 			
 //			Movie movie = restTemplate.getForObject("http://localhost:8082/movies/"+rating.getMovieId(), Movie.class);
 			Movie movie = webClientBuilder.build().get().uri("http://localhost:8082/movies/"+rating.getMovieId()).retrieve().bodyToMono(Movie.class).block();

@@ -48,7 +48,12 @@ public class Database {
 		return (float) (Math.round((sum / count) * 100.0) / 100.0);
 	}
 	
-	public List<Rating> getRatingByUserId(String userId) {
+	public UserRating getRatingByUserId(String userId) {
+		return new UserRating(userId, userRatings.get(userId).getRatings());
+	}
+	
+	
+	public List<Rating> getUserRatings(String userId) {
 		return userRatings.get(userId).getRatings();
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shika.domain.Rating;
+import com.shika.domain.UserRating;
 import com.shika.repository.RatingRepository;
 import com.shika.service.RatingService;
 
@@ -21,7 +22,12 @@ public class RatingServiceImpl implements RatingService{
 	}
 
 	@Override
-	public List<Rating> getUserRatings(String userId) {
+	public List<Rating> getUserMoviesRatings(String userId) {
+		return ratingRepository.getUserMoviesRatings(userId);
+	}
+
+	@Override
+	public UserRating getUserRatings(String userId) {
 		return ratingRepository.getUserRatings(userId);
 	}
 	
