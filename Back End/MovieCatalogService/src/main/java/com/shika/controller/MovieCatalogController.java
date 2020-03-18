@@ -35,8 +35,9 @@ public class MovieCatalogController {
 //				new Rating("222", 4),
 //				new Rating("333", 5)
 //		);
-		
-		UserRating userRating = webClientBuilder.build().get().uri("http://localhost:8083/ratings/user/" + userId).retrieve().bodyToMono(UserRating.class).block();
+
+		UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratings/user/" + userId, UserRating.class);
+//		UserRating userRating = webClientBuilder.build().get().uri("http://RATINGS-DATA-SERVICE/ratings/user/" + userId).retrieve().bodyToMono(UserRating.class).block();
 		
 //		RestTemplate restTemplate = new RestTemplate();
 		if(userRating.getRatings() == null || userRating.getRatings().isEmpty()) 
@@ -44,8 +45,8 @@ public class MovieCatalogController {
 		
 		return userRating.getRatings().stream().map(rating -> {
 			
-//			Movie movie = restTemplate.getForObject("http://localhost:8082/movies/"+rating.getMovieId(), Movie.class);
-			Movie movie = webClientBuilder.build().get().uri("http://localhost:8082/movies/"+rating.getMovieId()).retrieve().bodyToMono(Movie.class).block();
+			Movie movie = restTemplate.getForObject("http://movie-info-service/movies/"+rating.getMovieId(), Movie.class);
+//			Movie movie = webClientBuilder.build().get().uri("http://MOVIE-INFO-SERVICE/movies/"+rating.getMovieId()).retrieve().bodyToMono(Movie.class).block();
 			return new CatalogItem(movie.getName(), movie.getDescription(), rating.getRating());
 			
 		}).collect(Collectors.toList());
