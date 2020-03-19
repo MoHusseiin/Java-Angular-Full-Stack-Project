@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.shika.domain.Movie;
+import com.shika.error.MovieNotFoundException;
 
 @Component
 public class Database {
@@ -27,6 +28,7 @@ public class Database {
 	}
 	
 	public Movie getMovieById(String movieId) {
+		if(!movies.containsKey(movieId)) throw new MovieNotFoundException(movieId);
 		return movies.get(movieId);
 	}
 
@@ -38,12 +40,14 @@ public class Database {
 	}
 
 	public Movie updateMovieById(Movie movie) {
-		if(movies.containsKey(movie.getMovieId()))
-			movies.put(movie.getMovieId(), movie);
+		if(!movies.containsKey(movie.getMovieId()))
+			throw new MovieNotFoundException(movie.getMovieId());
+		movies.put(movie.getMovieId(), movie);
 		return movie;
 	}
 
 	public Movie deleteMovie(String movieId) {
+		if(!movies.containsKey(movieId)) throw new MovieNotFoundException(movieId);
 		return	movies.remove(movieId);
 	}
 }

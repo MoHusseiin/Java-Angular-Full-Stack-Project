@@ -2,7 +2,10 @@ package com.shika.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,23 +31,22 @@ public class MovieController {
 	}
 	
 	@GetMapping("/{movieId}")
-	public Movie getMovieById(@PathVariable String movieId) {
+	public Movie getMovieById(@Validated @PathVariable String movieId) {
 		return movieService.getMovieById(movieId);
 	}
 	
 	@PostMapping()
-	public Movie addMovie(@RequestBody Movie movie) {
+	public Movie addMovie(@Valid @Validated @RequestBody Movie movie) {
 		return movieService.addMovie(movie);
 	}
 	
 	@PutMapping()
-	public Movie updateMovieById(@RequestBody Movie movie) {
-		if(movie == null) return movie;
+	public Movie updateMovie(@Valid @Validated @RequestBody Movie movie) {
 		return movieService.updateMovieById(movie);
 	}
 	
 	@DeleteMapping("/{movieId}")
-	public Movie deleteMovie(@PathVariable String movieId) {
+	public Movie deleteMovie(@Validated @PathVariable String movieId) {
 		return movieService.deleteMovie(movieId);
 	}
 }
