@@ -25,4 +25,19 @@ public class MovieServiceImpl implements MovieService{
 		return movieRepository.getMovieById(movieId);
 	}
 
+	@Override
+	public Movie addMovie(Movie movie) {
+		return movieRepository.addMovie(movie);
+	}
+
+	@Override
+	public Movie updateMovieById(Movie movie) {
+		return movieRepository.updateMovieById(movie);
+	}
+
+	@Override
+	public Movie deleteMovie(String movieId) {
+		return movieRepository.deleteMovie(movieId);
+	}
+
 }

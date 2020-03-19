@@ -1,5 +1,6 @@
 package com.shika.data;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -22,10 +23,27 @@ public class Database {
 	}
 	
 	public List<Movie> getAllMovies() {
-		return movies.values().stream().collect(Collectors.toList());
+		return movies.values().stream().sorted(Comparator.comparing(Movie::getName).reversed()).collect(Collectors.toList());
 	}
 	
 	public Movie getMovieById(String movieId) {
 		return movies.get(movieId);
+	}
+
+	public Movie addMovie(Movie movie) {
+		String movieId = String.valueOf(movie.hashCode());
+		movie.setMovieId(movieId);
+		movies.put(movieId, movie);
+		return movie;
+	}
+
+	public Movie updateMovieById(Movie movie) {
+		if(movies.containsKey(movie.getMovieId()))
+			movies.put(movie.getMovieId(), movie);
+		return movie;
+	}
+
+	public Movie deleteMovie(String movieId) {
+		return	movies.remove(movieId);
 	}
 }

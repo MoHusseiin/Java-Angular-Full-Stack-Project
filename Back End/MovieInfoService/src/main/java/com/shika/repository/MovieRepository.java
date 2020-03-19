@@ -10,4 +10,10 @@ public interface MovieRepository {
 
 	List<Movie> getAllMovies();
 
+	Movie addMovie(Movie movie);
+
+	Movie updateMovieById(Movie movie);
+
+	Movie deleteMovie(String movieId);
+
 }

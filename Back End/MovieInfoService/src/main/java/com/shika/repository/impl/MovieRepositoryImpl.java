@@ -25,4 +25,19 @@ public class MovieRepositoryImpl implements MovieRepository{
 		return movieDatabase.getAllMovies();
 	}
 
+	@Override
+	public Movie addMovie(Movie movie) {
+		return movieDatabase.addMovie(movie);
+	}
+
+	@Override
+	public Movie updateMovieById(Movie movie) {
+		return movieDatabase.updateMovieById(movie);
+	}
+
+	@Override
+	public Movie deleteMovie(String movieId) {
+		return movieDatabase.deleteMovie(movieId);
+	}
+
 }
