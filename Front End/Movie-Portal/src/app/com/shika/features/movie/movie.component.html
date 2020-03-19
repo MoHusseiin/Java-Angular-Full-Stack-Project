@@ -1,0 +1,9 @@
+<div class="card" *ngIf="movies$ | async as movies; else elseBlock">
+    <div class="card-body" *ngFor="let movie of movies">
+        <h5 class="card-title">{{movie.name}}</h5>
+        <p class="card-text">{{movie.desc}}</p>
+        <p class="card-text">{{movie.rating}}</p>
+        <a href="#" class="btn btn-primary">Read</a>
+    </div>
+</div>
+<ng-template #elseBlock>No Movies.</ng-template>

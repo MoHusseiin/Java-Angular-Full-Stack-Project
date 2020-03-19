@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import com.shika.domain.CatalogItem;
 import com.shika.domain.Movie;
 import com.shika.domain.UserRating;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/catalog")
 public class MovieCatalogController {
