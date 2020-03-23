@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.shika.domain.CatalogItem;
 import com.shika.domain.Movie;
 import com.shika.domain.UserRating;
+import com.shika.service.MovieInfoService;
+import com.shika.service.UserRatingService;
 
 @CrossOrigin
 @RestController
@@ -23,10 +24,13 @@ import com.shika.domain.UserRating;
 public class MovieCatalogController {
 	
 	@Autowired
-	RestTemplate restTemplate;
+	WebClient.Builder webClientBuilder;
 	
 	@Autowired
-	WebClient.Builder webClientBuilder;
+	UserRatingService userRatingService;
+	
+	@Autowired
+	MovieInfoService movieInfoService;
 	
 	@GetMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
@@ -37,7 +41,7 @@ public class MovieCatalogController {
 //				new Rating("333", 5)
 //		);
 
-		UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratings/user/" + userId, UserRating.class);
+		UserRating userRating = userRatingService.getUserRating(userId);
 //		UserRating userRating = webClientBuilder.build().get().uri("http://RATINGS-DATA-SERVICE/ratings/user/" + userId).retrieve().bodyToMono(UserRating.class).block();
 		
 //		RestTemplate restTemplate = new RestTemplate();
@@ -46,7 +50,7 @@ public class MovieCatalogController {
 		
 		return userRating.getRatings().stream().map(rating -> {
 			
-			Movie movie = restTemplate.getForObject("http://movie-info-service/movies/"+rating.getMovieId(), Movie.class);
+			Movie movie = movieInfoService.getMovieInfo(rating);
 //			Movie movie = webClientBuilder.build().get().uri("http://MOVIE-INFO-SERVICE/movies/"+rating.getMovieId()).retrieve().bodyToMono(Movie.class).block();
 			return new CatalogItem(movie.getName(), movie.getDescription(), rating.getRating());
 			
